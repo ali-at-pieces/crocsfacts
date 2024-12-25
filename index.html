@@ -5,49 +5,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crocodile Facts</title>
     <style>
+        :root {
+            --primary-color: #2ecc71;
+            --primary-dark: #27ae60;
+            --background-color: #f6f8fa;
+            --text-color: #2c3e50;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --container-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--background-color);
+            background-image: linear-gradient(135deg, #f6f8fa 0%, #e9ecef 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
+            padding: 1rem;
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
         .container {
             text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--container-bg);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            max-width: 600px;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            font-weight: 700;
         }
 
         button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
             cursor: pointer;
-            background-color: #4CAF50;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 5px;
-            margin-top: 20px;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px var(--shadow-color);
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px var(--shadow-color);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px var(--shadow-color);
         }
 
         #factDisplay {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #333;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: rgba(46, 204, 113, 0.1);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+
+        #factDisplay:empty {
+            background-color: transparent;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            button {
+                padding: 0.8rem 1.6rem;
+                font-size: 1rem;
+            }
+
+            #factDisplay {
+                font-size: 1rem;
+            }
+        }
+
+        /* Animation for fact transition */
+        @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadein 0.5s;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Crocodile Facts</h1>
+        <h1>🐊 Crocodile Facts</h1>
         <button id="generateFactButton">Generate Fact</button>
         <p id="factDisplay"></p>
     </div>
@@ -66,9 +151,15 @@
         ];
 
         document.getElementById('generateFactButton').addEventListener('click', function() {
+            const factDisplay = document.getElementById('factDisplay');
             const randomIndex = Math.floor(Math.random() * crocodileFacts.length);
-            const randomFact = crocodileFacts[randomIndex];
-            document.getElementById('factDisplay').textContent = randomFact;
+            factDisplay.style.opacity = '0';
+            
+            setTimeout(() => {
+                factDisplay.textContent = crocodileFacts[randomIndex];
+                factDisplay.style.opacity = '1';
+                factDisplay.classList.add('fade-in');
+            }, 300);
         });
     </script>
 </body>
